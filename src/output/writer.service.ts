@@ -20,7 +20,11 @@ const COLUMNS: (keyof OutputRow)[] = [
 
 export function writeResults(rows: OutputRow[]): string {
   mkdirSync(OUTPUT_DIR, { recursive: true });
-  const csv = stringify(rows, { header: true, columns: COLUMNS });
+  const csv = stringify(rows, {
+    header: true,
+    columns: COLUMNS,
+    cast: { boolean: (value) => (value ? 'true' : 'false') },
+  });
   writeFileSync(OUTPUT_PATH, csv, 'utf-8');
   return OUTPUT_PATH;
 }
