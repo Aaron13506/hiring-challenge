@@ -77,6 +77,16 @@ function isValidPhone(phone: string | null): boolean {
   return phone.replace(/\D/g, '').length >= 10;
 }
 
+// Enrichment's self-reported confidence, banded. README says to combine it
+// ourselves rather than treat it as the final score.
+function confidencePoints(data: ProviderData): number {
+  const conf = data.enrichment?.provider_confidence;
+  if (conf === undefined) return 0;
+  if (conf >= 80) return 10;
+  if (conf >= 60) return 5;
+  return 0;
+}
+
 export function score(data: ProviderData): ScoreSignals {
   const registryName = data.registry?.name ?? null;
   const listingName = data.listing?.name ?? null;
@@ -99,7 +109,10 @@ export function score(data: ProviderData): ScoreSignals {
   if (roleMatched) total += 20;
   if (contactValid) total += 15;
   if (corroborated) total += 15;
-  // +10 reserved for location match — input has no lat/lng, not awarded
+  total += confidencePoints(data);
+  // Location (+10) is a future signal: the dataset has no lat/lng, so its
+  // weight is reassigned here to provider_confidence. Adding coordinates later
+  // would require rebalancing, not just bolting +10 on top.
 
   return { score: total, nameFound, roleMatched, contactValid, corroborated };
 }
