@@ -33,6 +33,15 @@ export interface ScoreSignals {
   corroborated: boolean;
 }
 
+export interface ResolvedContact {
+  name: string | null;
+  role: string | null;
+  contact: string;
+  sources: string[];
+  sourceUrl: string | null;
+  conflicts: string | null;
+}
+
 export interface OutputRow {
   company_name: string;
   contact_name: string | null;
