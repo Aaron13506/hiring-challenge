@@ -1,0 +1,19 @@
+{
+  "name": "hiring-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "csv-parse": "^6.2.1",
+    "csv-stringify": "^6.7.0",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.2",
+    "typescript": "^5.9.3"
+  },
+  "private": true
+}
