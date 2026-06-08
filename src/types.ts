@@ -25,6 +25,14 @@ export interface ProviderData {
 
 export type MockDatabase = Record<string, ProviderData>;
 
+export interface ScoreSignals {
+  score: number;
+  nameFound: boolean;
+  roleMatched: boolean;
+  contactValid: boolean;
+  corroborated: boolean;
+}
+
 export interface OutputRow {
   company_name: string;
   contact_name: string | null;
