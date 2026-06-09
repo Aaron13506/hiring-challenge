@@ -14,6 +14,7 @@ const COLUMNS: (keyof OutputRow)[] = [
   'confidence_score',
   'source',
   'needs_human_review',
+  'suppressed',
   'source_url',
   'source_conflicts',
 ];

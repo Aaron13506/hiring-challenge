@@ -15,12 +15,14 @@ function main(): void {
 
   const outputPath = writeResults(rows);
 
+  const suppressed = rows.filter((r) => r.suppressed).length;
   const needsReview = rows.filter((r) => r.needs_human_review).length;
-  const autoApproved = rows.length - needsReview;
+  const autoApproved = rows.length - needsReview - suppressed;
 
   console.log(`Wrote ${rows.length} rows to ${outputPath}`);
   console.log(`  auto-approved:      ${autoApproved}`);
   console.log(`  needs human review: ${needsReview}`);
+  console.log(`  suppressed (opt-out): ${suppressed}`);
 }
 
 main();

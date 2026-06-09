@@ -55,6 +55,7 @@ export interface OutputRow {
   confidence_score: number;
   source: string;
   needs_human_review: boolean;
+  suppressed: boolean;
   source_url: string | null;
   source_conflicts: string | null;
 }
