@@ -21,6 +21,30 @@ pnpm start          # or: npx ts-node src/index.ts
 Output is written to `output/results.csv` (overwritten each run). The console prints
 a summary: auto-approved / needs review / suppressed.
 
+## Tests
+
+```bash
+pnpm test
+```
+
+Tests run on Node's built-in runner (`node:test` + `node:assert`) through `ts-node` —
+no testing framework and no extra dependency. Test files are co-located with the code
+they cover (`*.test.ts` next to each service) .
+
+Coverage is deliberately focused on the logic that carries judgment, not on plumbing.
+Every file in `src/services/` has a test:
+
+| File | Kind | What it covers |
+|---|---|---|
+| `scoring.test.ts` | unit | persona matching; `namesAgree` (an initial agrees, but "Bob" and "Robert" are kept apart); `emailMatchesName` (a surname corroborates, a bare first name does not); a corroborated contact clears the threshold while a single weak guess does not |
+| `resolver.test.ts` | unit | name precedence (registry over listing); contact priority (enrichment email → enrichment phone → listing phone); conflict recording when sources disagree; deduped provenance; cannot-verify when a company has no sources |
+| `suppression.test.ts` | unit | an opt-out entry blocks the contact, case-insensitively; a contact off the list passes |
+| `enrichment.test.ts` | end-to-end | over the real fixtures: the orchestrator wires resolve + score + suppression into the right terminal state (auto-approved / suppressed / cannot-verify) and blanks the contact when it should |
+
+**Intentionally not tested:** `providers/mock.provider` and `output/writer`. Both are
+I/O plumbing (read/write disk), where a test means temp fixtures or mocking `fs` for
+little signal.
+
 ## Data flow
 
 ```
